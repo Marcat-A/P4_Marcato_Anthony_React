@@ -83,13 +83,6 @@ form.addEventListener("submit", (e) => {
     errorMessage(email, errors.email);
   }
   // If a radio is checked
-  // for (const radio of radios) {
-  //   if (!radio.checked) {
-  //     errorMessage(radio, errors.location);
-  //     break;
-  //   }
-  // }
-
   const radioChecked = document.querySelector('input[name="location"]:checked');
   if (!radioChecked) {
     errorMessage(location6, errors.location);
@@ -97,5 +90,17 @@ form.addEventListener("submit", (e) => {
   // If the utils are checked
   if (!utils.checked) {
     errorMessage(utils, errors.utils);
+  }
+
+  // If all ok, display the confirmation
+  if (
+    firstName.value &&
+    lastName.value &&
+    testEmail &&
+    radioChecked &&
+    utils.checked
+  ) {
+    form.remove();
+    document.getElementById("confirm").style.display = "flex";
   }
 });
