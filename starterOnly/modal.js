@@ -18,6 +18,8 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // launch modal form
 function launchModal() {
   modalbg.style.display = "block";
+  form.style.display = "block";
+  confirm.style.display = "none";
 }
 
 // close modal
@@ -36,6 +38,8 @@ const quantity = document.getElementById("quantity");
 const radios = document.getElementsByName("location");
 const location6 = document.getElementById("location6");
 const utils = document.getElementById("checkbox1");
+const confirm = document.getElementById("confirm");
+const inputs = document.querySelectorAll(".text-control");
 
 // Error Messages
 
@@ -70,14 +74,37 @@ form.addEventListener("submit", (e) => {
   const testEmail = regex.test(email.value);
   // No refresh of the page
   e.preventDefault();
-  // If firstname not empty and do at least 2 chars
-  if (!firstName.value || firstName.value.length <= 1) {
-    errorMessage(firstName, errors.firstName);
+
+  function checkName(name) {
+    if (!name.value || name.value.length <= 1 || name.value === "  ") {
+      if (name.name === "first") {
+        errorMessage(name, errors.firstName);
+      } else {
+        errorMessage(name, errors.lastName);
+      }
+    } else {
+      return true;
+    }
   }
-  // If lastname not empty and do at least 2 chars
-  if (!lastName.value || lastName.value.length <= 1) {
-    errorMessage(lastName, errors.lastName);
-  }
+
+  checkName(firstName);
+  checkName(lastName);
+  // // If firstname not empty and do at least 2 chars
+  // if (
+  //   !firstName.value ||
+  //   firstName.value.length <= 1 ||
+  //   firstName.value === "  "
+  // ) {
+  //   errorMessage(firstName, errors.firstName);
+  // }
+  // // If lastname not empty and do at least 2 chars
+  // if (
+  //   !lastName.value ||
+  //   lastName.value.length <= 1 ||
+  //   lastName.value === "  "
+  // ) {
+  //   errorMessage(lastName, errors.lastName);
+  // }
   // If mail is valid
   if (!testEmail) {
     errorMessage(email, errors.email);
@@ -93,14 +120,15 @@ form.addEventListener("submit", (e) => {
   }
 
   // If all ok, display the confirmation
-  if (
-    firstName.value &&
-    lastName.value &&
-    testEmail &&
-    radioChecked &&
-    utils.checked
-  ) {
-    form.remove();
-    document.getElementById("confirm").style.display = "flex";
+  if (firstName && lastName && testEmail && radioChecked && utils.checked) {
+    form.style.display = "none";
+    confirm.style.display = "flex";
+    inputs.forEach((input) => {
+      input.value = "";
+    });
+    radioChecked.checked = false;
+    utils.checked = false;
   }
 });
+
+const closeModal = document.querySelector(".closeModal");
