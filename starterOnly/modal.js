@@ -65,6 +65,7 @@ const errorMessage = (e, message) => {
 form.addEventListener("submit", (e) => {
   // Check if alredy an error, remove if alredy have one
   document.querySelectorAll(".form-alert").forEach((e) => e.remove());
+  const isNamesValid = false;
 
   // Create the email RegExp
   const regex = new RegExp(
@@ -79,10 +80,13 @@ form.addEventListener("submit", (e) => {
     if (!name.value || name.value.length <= 1 || name.value === "  ") {
       if (name.name === "first") {
         errorMessage(name, errors.firstName);
+        return false;
       } else {
         errorMessage(name, errors.lastName);
+        return false;
       }
     } else {
+      isNamesValid = true;
       return true;
     }
   }
@@ -120,7 +124,7 @@ form.addEventListener("submit", (e) => {
   }
 
   // If all ok, display the confirmation
-  if (firstName && lastName && testEmail && radioChecked && utils.checked) {
+  if (isNamesValid && testEmail && radioChecked && utils.checked) {
     form.style.display = "none";
     confirm.style.display = "flex";
     inputs.forEach((input) => {
