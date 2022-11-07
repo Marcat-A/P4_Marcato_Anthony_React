@@ -44,8 +44,8 @@ const inputs = document.querySelectorAll(".text-control");
 // Error Messages
 
 const errors = {
-  firstName: "Veuillez entrer un prénom valide.",
-  lastName: "Veuillez entrer un nom valide.",
+  first: "Veuillez entrer un prénom valide.",
+  last: "Veuillez entrer un nom valide.",
   email: "Veuillez entrer un email valide.",
   location: "Veuillez selectionner une ville dans la liste.",
   utils: "Veuillez accepter les conditions générales d'utilisation.",
@@ -60,12 +60,20 @@ const errorMessage = (e, message) => {
   e.parentElement.append(div);
 };
 
+function checkName(field) {
+  if (!field.value || field.value.length <= 1 || field.value === "  ") {
+    errorMessage(field, errors[field.name]);
+    return false;
+  } else {
+    return true;
+  }
+}
+
 // Check the form
 
 form.addEventListener("submit", (e) => {
   // Check if alredy an error, remove if alredy have one
   document.querySelectorAll(".form-alert").forEach((e) => e.remove());
-  const isNamesValid = false;
 
   // Create the email RegExp
   const regex = new RegExp(
@@ -76,39 +84,9 @@ form.addEventListener("submit", (e) => {
   // No refresh of the page
   e.preventDefault();
 
-  function checkName(name) {
-    if (!name.value || name.value.length <= 1 || name.value === "  ") {
-      if (name.name === "first") {
-        errorMessage(name, errors.firstName);
-        return false;
-      } else {
-        errorMessage(name, errors.lastName);
-        return false;
-      }
-    } else {
-      isNamesValid = true;
-      return true;
-    }
-  }
+  let firstNameChecked = checkName(firstName);
+  let lastNameChecked = checkName(lastName);
 
-  checkName(firstName);
-  checkName(lastName);
-  // // If firstname not empty and do at least 2 chars
-  // if (
-  //   !firstName.value ||
-  //   firstName.value.length <= 1 ||
-  //   firstName.value === "  "
-  // ) {
-  //   errorMessage(firstName, errors.firstName);
-  // }
-  // // If lastname not empty and do at least 2 chars
-  // if (
-  //   !lastName.value ||
-  //   lastName.value.length <= 1 ||
-  //   lastName.value === "  "
-  // ) {
-  //   errorMessage(lastName, errors.lastName);
-  // }
   // If mail is valid
   if (!testEmail) {
     errorMessage(email, errors.email);
@@ -124,7 +102,13 @@ form.addEventListener("submit", (e) => {
   }
 
   // If all ok, display the confirmation
-  if (isNamesValid && testEmail && radioChecked && utils.checked) {
+  if (
+    firstNameChecked &&
+    lastNameChecked &&
+    testEmail &&
+    radioChecked &&
+    utils.checked
+  ) {
     form.style.display = "none";
     confirm.style.display = "flex";
     inputs.forEach((input) => {
