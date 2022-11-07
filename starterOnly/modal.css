@@ -14,10 +14,8 @@ body {
   margin: 0;
   display: flex;
   flex-direction: column;
-  background-image: url("background.png");
   font-family: var(--font-default);
   font-size: 18px;
-  max-width: 1300px;
   margin: 0 auto;
 }
 
@@ -32,7 +30,7 @@ img {
 
 .topnav {
   overflow: hidden;
-  margin: 3.5%;
+  margin: 3.5% 10%;
 }
 .header-logo {
   float: left;
@@ -56,6 +54,7 @@ img {
   background-color: #ff0000;
   color: #ffffff;
   border-radius: 15px;
+  text-decoration: underline;
 }
 
 .topnav a.active {
@@ -71,6 +70,9 @@ img {
 @media screen and (max-width: 768px) {
   .topnav a {
     display: none;
+  }
+  .topnav a i {
+    color: red;
   }
   .topnav a.icon {
     float: right;
@@ -92,6 +94,13 @@ img {
     display: block;
     text-align: left;
   }
+  .header-logo > img {
+    width: 230px;
+    margin-top: 15px;
+  }
+  .main-navbar a i {
+    font-size: 30px;
+  }
 }
 
 @media screen and (max-width: 540px) {
@@ -101,7 +110,6 @@ img {
   .topnav a.icon {
     float: right;
     display: block;
-    margin-top: -15px;
   }
 }
 
@@ -183,8 +191,8 @@ main {
 
 .content {
   margin: 5% auto;
-  width: 100%;
-  max-width: 500px;
+  max-width: 30%;
+  box-shadow: 0 0 0 1000px #fff;
   animation-name: modalopen;
   animation-duration: var(--modal-duration);
   background: #232323;
@@ -202,7 +210,7 @@ main {
 
 label {
   font-family: var(--font-default);
-  font-size: 17px;
+  font-size: 0.8rem;
   font-weight: normal;
   display: inline-block;
   margin-bottom: 11px;
@@ -508,6 +516,12 @@ footer {
     display: block;
     box-shadow: unset;
   }
+
+  .content {
+    max-width: 100%;
+    height: 100%;
+    margin: 0;
+  }
   .hero-content {
     background: #fff;
     color: #000;
@@ -520,12 +534,12 @@ footer {
     display: none;
   }
   .hero-headline {
-    font-size: 4.5rem;
-    white-space: normal;
+    font-size: 2.3rem;
+    max-width: 100%;
   }
   .hero-text {
     width: unset;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
   .hero-img img {
     border-radius: 10px;

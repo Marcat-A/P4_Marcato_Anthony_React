@@ -18,6 +18,8 @@ modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 // launch modal form
 function launchModal() {
   modalbg.style.display = "block";
+  form.style.display = "block";
+  confirm.style.display = "none";
 }
 
 // close modal
@@ -36,12 +38,14 @@ const quantity = document.getElementById("quantity");
 const radios = document.getElementsByName("location");
 const location6 = document.getElementById("location6");
 const utils = document.getElementById("checkbox1");
+const confirm = document.getElementById("confirm");
+const inputs = document.querySelectorAll(".text-control");
 
 // Error Messages
 
 const errors = {
-  firstName: "Veuillez entrer un prénom valide.",
-  lastName: "Veuillez entrer un nom valide.",
+  first: "Veuillez entrer un prénom valide.",
+  last: "Veuillez entrer un nom valide.",
   email: "Veuillez entrer un email valide.",
   location: "Veuillez selectionner une ville dans la liste.",
   utils: "Veuillez accepter les conditions générales d'utilisation.",
@@ -55,6 +59,15 @@ const errorMessage = (e, message) => {
   div.innerHTML = message;
   e.parentElement.append(div);
 };
+
+function checkName(field) {
+  if (!field.value || field.value.length <= 1 || field.value === "  ") {
+    errorMessage(field, errors[field.name]);
+    return false;
+  } else {
+    return true;
+  }
+}
 
 // Check the form
 
@@ -70,14 +83,10 @@ form.addEventListener("submit", (e) => {
   const testEmail = regex.test(email.value);
   // No refresh of the page
   e.preventDefault();
-  // If firstname not empty and do at least 2 chars
-  if (!firstName.value || firstName.value.length <= 1) {
-    errorMessage(firstName, errors.firstName);
-  }
-  // If lastname not empty and do at least 2 chars
-  if (!lastName.value || lastName.value.length <= 1) {
-    errorMessage(lastName, errors.lastName);
-  }
+
+  let firstNameChecked = checkName(firstName);
+  let lastNameChecked = checkName(lastName);
+
   // If mail is valid
   if (!testEmail) {
     errorMessage(email, errors.email);
@@ -94,13 +103,20 @@ form.addEventListener("submit", (e) => {
 
   // If all ok, display the confirmation
   if (
-    firstName.value &&
-    lastName.value &&
+    firstNameChecked &&
+    lastNameChecked &&
     testEmail &&
     radioChecked &&
     utils.checked
   ) {
-    form.remove();
-    document.getElementById("confirm").style.display = "flex";
+    form.style.display = "none";
+    confirm.style.display = "flex";
+    inputs.forEach((input) => {
+      input.value = "";
+    });
+    radioChecked.checked = false;
+    utils.checked = false;
   }
 });
+
+const closeModal = document.querySelector(".closeModal");
